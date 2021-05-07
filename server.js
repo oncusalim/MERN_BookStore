@@ -6,6 +6,8 @@ require("dotenv").config()
 
 const connectDB  = require("./models/connectDB")
 connectDB();
+
+app.use(express.json())
 app.use("/api", router)
 
 app.listen(process.env.PORT,()=>{
