@@ -70,7 +70,7 @@ exports.login = async(req, res) => {
                 return res.status(400).json({ errors: [{ message: "Unknown Error" }] })
             }
         
-            res.send(token)
+            res.status(202).json({token})
         } )  
 
     

@@ -1,6 +1,6 @@
 const AuthConrollers = require("../controllers/AuthControllers")
 const router = require("express").Router();
-const { check } = require("express-validator")
+const validations = require("../middleware/validationMiddleware");
 /**
  * @route POST /api/auth/register
  * @desc Register endpoint
@@ -8,14 +8,7 @@ const { check } = require("express-validator")
  */
 router.post(
     "/register", 
-    [ 
-        check("password", "Please enter a password with 6 and more chars").isLength(
-            {
-                min: 6,
-            }
-        ),
-        check("email", "Please enter valid email!").isEmail(),
-    ], 
+    validations.emailPasswordValidation,
     AuthConrollers.register)
 
 /**
@@ -24,14 +17,7 @@ router.post(
  * @access Public
  */
 router.post("/login", 
-[ 
-    check("password", "Please enter a password with 6 and more chars").isLength(
-        {
-            min: 6,
-        }
-    ),
-    check("email", "Please enter valid email!").isEmail(),
-], 
+validations.emailPasswordValidation,
 AuthConrollers.login)
 
 module.exports = router;
