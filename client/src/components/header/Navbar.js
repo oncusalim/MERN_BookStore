@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 const { Header } = Layout;
 
 const Navbar = () => {
-  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setLoggedIn, selectedBooks } = useContext(AuthContext);
   const [current, setCurrent] = useState("home");
   const history = useHistory();
 
@@ -48,7 +48,7 @@ const Navbar = () => {
 
         <a href="/cart" className="cart-navbar-link">
 
-          <Badge count={1}>
+          <Badge count={ selectedBooks.length}>
 
             <ShoppingCartOutlined className="cart-icon" />
 

@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 function AuthContextProvider({ children }) {
   
   const [isLoggedIn, setLoggedIn] = useState("false");
+  const [selectedBooks, setSelectedBooks] = useState([]);
 
   useEffect(async() => {
     const token = await localStorage.getItem("token")
@@ -12,7 +13,7 @@ function AuthContextProvider({ children }) {
   }, [])
   
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, setLoggedIn, selectedBooks, setSelectedBooks}}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,16 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Row, Col, Image, Card, Rate, Button } from 'antd';
-import {useParams} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
+const { Meta } = Card;
 
 export default function BookDetail({}) {
   const location = useLocation();   
   const [data, setData] = useState()
-  const { Meta } = Card;
-    useEffect(() => {
+  const [buttonFlag, setButtonFlag] = useState(false)
+  
+  const {selectedBooks, setSelectedBooks} = useContext(AuthContext)
+
+  const history = useHistory()
+
+  const addShoppingCart = ()=>{
+    let myList = selectedBooks
+    let removedList = [];
+    if (!buttonFlag) { 
+    setSelectedBooks((prev)=> [...prev,data])
+    } else {
+    
+    
+    myList.filter((value)=>{
+       if (value._id !== data._id) removedList.push(value) 
       
+    })
+    setSelectedBooks(removedList)  
+  }
+    setButtonFlag((prev)=>!prev)
+  }
+
+    useEffect(() => {
+      console.log("useefect", selectedBooks)
+      console.log("useefect data", data)
+
       setData(location.state.data);
-    }, [])
+      selectedBooks?.map((value)=>{
+        if (value._id==data?._id) setButtonFlag(true) 
+      })
+
+    }, [data])
   
 
   return (
@@ -38,7 +69,9 @@ export default function BookDetail({}) {
       <p>Description: {data?.description}</p>
       <p>Price: {data?.price}TRY</p>
       <p>Page: {data?.page}</p>
-      <Button type="primary">SEPETE EKLE</Button>
+      <Button type="primary" onClick={()=>addShoppingCart()} >
+        {!buttonFlag ? "SEPETE EKLE" : "SEPETTEN ÇIKAR" }</Button>
+    
     </Card>
   </div>
      
