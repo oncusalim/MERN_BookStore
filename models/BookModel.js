@@ -25,6 +25,15 @@ const BookSchema = new mongoose.Schema({
     page: {
         type: Number ,
     },
+    url:{
+        type: String,
+    },
+    price: {
+        type: Number,
+    },
+    rating: {
+        type: Number,
+    }
 })
 
 module.exports = Book = mongoose.model("book", BookSchema)
