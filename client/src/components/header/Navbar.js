@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import { useHistory } from "react-router-dom";
 import { Badge } from "antd";
@@ -8,9 +8,18 @@ import { AuthContext } from "../../context/AuthContext";
 const { Header } = Layout;
 
 const Navbar = () => {
+  const [sayac, setSayac] = useState();
   const { isLoggedIn, setLoggedIn, selectedBooks } = useContext(AuthContext);
+  
   const [current, setCurrent] = useState("home");
+  
   const history = useHistory();
+
+  const getData = () =>{
+    let mySelectedBooks = sessionStorage.getItem("selectedBooks")
+    let mySelectedBooks2 = JSON.parse(mySelectedBooks)
+    setSayac(mySelectedBooks2)
+  }
 
   const handleLogoClick = (e) => {
     history.push(`/`);
@@ -26,6 +35,11 @@ const Navbar = () => {
       handleLogout();
     } else history.push(`/${e.key}`);
   };
+
+  useEffect(() => {
+   
+    getData();
+  }, [selectedBooks])
 
   return (
     <Header>
@@ -48,7 +62,7 @@ const Navbar = () => {
 
         <a href="/cart" className="cart-navbar-link">
 
-          <Badge count={ selectedBooks.length}>
+          <Badge count={sayac?.length}>
 
             <ShoppingCartOutlined className="cart-icon" />
 

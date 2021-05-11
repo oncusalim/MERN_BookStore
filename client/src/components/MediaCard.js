@@ -7,7 +7,7 @@ const { Meta } = Card;
 export const MediaCard = (props) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  console.log(props.data)
+  
   return (
     <div onClick={()=>history.push({
       pathname: "/books/details", 

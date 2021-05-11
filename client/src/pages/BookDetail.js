@@ -15,19 +15,22 @@ export default function BookDetail({}) {
 
   const history = useHistory()
 
-  const addShoppingCart = ()=>{
-    let myList = selectedBooks
+  const addShoppingCart = async()=>{
+    let myList = await localStorage.getItem("selectedBooks");
+   
+    myList = JSON.parse(myList)
     let removedList = [];
+
     if (!buttonFlag) { 
     setSelectedBooks((prev)=> [...prev,data])
+    sessionStorage.setItem("selectedBooks", JSON.stringify(selectedBooks) )
     } else {
-    
-    
     myList.filter((value)=>{
        if (value._id !== data._id) removedList.push(value) 
       
     })
-    setSelectedBooks(removedList)  
+    setSelectedBooks(removedList)
+    sessionStorage.setItem("selectedBooks", JSON.stringify(selectedBooks) )  
   }
     setButtonFlag((prev)=>!prev)
   }
@@ -45,10 +48,11 @@ export default function BookDetail({}) {
   
 
   return (
+   
     <Row>
        
-    <Col span={8}>
-      <div className="site-card-border-less-wrapper">
+    <Col span={8} order={1}>
+    
     <Card
     hoverable
     style={{ width: 240 }}
@@ -60,12 +64,11 @@ export default function BookDetail({}) {
     
   </Card>
     
-    
-    </div>
+   
     </Col>
-    <Col span={16}>
-    <div className="site-card-border-less-wrapper">
-    <Card title= {data?.title} bordered={false} style={{ width: 300 }}>
+    <Col span={16} order={2}>
+   
+    <Card title= {data?.title} bordered={false} >
       <p>Description: {data?.description}</p>
       <p>Price: {data?.price}TRY</p>
       <p>Page: {data?.page}</p>
@@ -73,10 +76,11 @@ export default function BookDetail({}) {
         {!buttonFlag ? "SEPETE EKLE" : "SEPETTEN ÇIKAR" }</Button>
     
     </Card>
-  </div>
+  
      
     
     </Col>
   </Row>
+
   );
 }
